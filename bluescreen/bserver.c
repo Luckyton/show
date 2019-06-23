@@ -11,6 +11,7 @@
 #define BUFF_SIZE 1024
 
 char buff[BUFF_SIZE];
+// char currPath[BUFF_SIZE];
 
 static void bluescreen()
 {
@@ -20,11 +21,16 @@ static void bluescreen()
     if(pid < 0) {
         perror("fork");
     } else if(pid == 0) {
-        execl("/sbin/shutdown", "sbin/shutdown" "-h", "now", NULL);
+        //execl("/usr/bin/java", "/usr/bin/java", "-jar", "./bscreen.jar", NULL);
+	    //execl("/bin/ls", "/bin/ls", NULL);
+        // getcwd(currPath, BUFF_SIZE);
+        // strcat(currPath + strlen(currPath), "/bin/screen.sh\0");
+        // printf("%s\n", currPath);
+        execl("/bin/bash", "/bin/bash", "bin/screen.sh", NULL);
     } else {
-        exit(0);
+	    sleep(1);
+        exit(EXIT_SUCCESS);
     }
-    
 }
 
 static void setup()
@@ -32,6 +38,7 @@ static void setup()
     int sockfd, nsockfd, addrlen, datalen;
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
+    int flag;
 
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
@@ -50,9 +57,10 @@ static void setup()
         nsockfd = accept(sockfd, (struct sockaddr *)&client_addr, &addrlen);
 
         while((datalen = recv(nsockfd, buff, BUFF_SIZE, 0)) > 0) {
-	    buff[datalen] = 0;
+	        buff[datalen] = 0;
             if(strcmp(buff, "bluescreen") == 0) {
                 bluescreen();
+                break;
             } else {
                 printf("%s\n", buff);
             }
