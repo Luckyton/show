@@ -1,0 +1,18 @@
+#!/bin/bash
+
+target=$1
+count=$3
+
+function action() {
+    for((i = 0; i < ${count}; ++i)); do
+        sleep 0.1
+        printf "dmimap can not get any info about ${target}"
+        printf " : scan failed\n"
+    done;
+}
+
+if test -z "${count}"; then
+    count=1
+fi
+
+action

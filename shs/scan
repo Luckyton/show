@@ -1,0 +1,82 @@
+#!/bin/bash
+
+targetA="liangshan.gov.cn"
+targetB="xinyu.gov.cn"
+
+ipA=("60.211.225.13")
+ipB=("218.87.99.48" "218.87.99.2" "218.87.99.5")
+
+targethost=""
+targetport=80
+hosts=""
+
+function printDomainInfo() {
+    target=$1
+    ips=$2
+    for ip in ${ips[*]}
+    do
+        sleep 1
+        printf "Domain %s contains host : %s\n" $target $ip
+    done
+}
+
+function printNmapInfoA() {
+    printf "\nScan report for ${ipA}"
+    printf "\nHost is up (0.038s latency)."
+    printf "\nNot shown: 999 filtered ports"
+    printf "\nPORT    STATE   SERVICE\n"
+    sleep 2
+    printf "80/tcp  open    http"
+    printf "\nScan done: 1 IP address (1 host ip) scanned in 1.12 seconds\n"
+}
+
+function printHostInfoA() { 
+    printf "\n.-[ 192.168.170.130/47826 -> 60.211.225.13/80 (syn) ]-"
+    printf "\n|"
+    printf "\n| client   = 192.168.170.130/47826"
+    printf "\n| os       = Linux 3.11 and newer"
+    printf "\n| dist     = 0"
+    printf "\n| params   = none"
+    printf "\n| raw_sig  = 4:64+0:0:1460:mss*20,7:mss,sok,ts,nop,ws:df,id+:0"
+    printf "\n|"
+    printf "\n\`----\n"
+}
+
+function scanA() {
+    printNmapInfoA
+    printHostInfoA
+}
+
+function scanB() {
+    sleep 2
+    curl "http://ip:port/attack"
+    curl "http://ip:port/attack"
+    curl "http://ip:port/attack"
+    printf "\nNote: Hosts seems down.\n"
+    printf "Scan done: 3 IP address (0 hosts up) scanned in 3.04 seconds"
+    printf "\n"
+}
+
+function parse() {
+    targethost=$2
+    if [[ $targethost == $targetA ]] 
+    then
+        hosts=domainA
+    elif [[ $targethost == $targetB ]]
+    then
+        hosts=domainB
+    fi
+}
+
+parse $*
+
+if [[ $targethost == $targetA ]]
+then
+    printDomainInfo $targethost "${ipA[*]}"
+    scanA
+    attackA
+elif [[ $targethost == $targetB ]]
+then
+    printDomainInfo $targethost "${ipB[*]}"
+    scanB
+fi
