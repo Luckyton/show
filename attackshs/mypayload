@@ -1,0 +1,25 @@
+#!/bin/bash
+
+targetHost=$2
+targetPort=$4
+expliotcode=$6
+
+printf "target host : %s\n" $targetHost
+printf "expliot code : %s\n" $expliotcode
+sleep 1
+printf "\nServer username : root\n"
+printf "OS : Linux 3.11\n"
+printf "Arch : x86_64\n"
+printf "Language : zh_CN\n"
+
+printf "\nexplioting...\n"
+sleep 1
+printf "uploading trojan client...\n"
+sleep 1
+printf "trojan running...\n"
+sleep 1
+
+# curl "http://www.baidu.com"
+
+printf "\nsuccess.\n"
+# nc -l -v 0.0.0.0 4444
